@@ -1,0 +1,55 @@
+version: '2.3'
+
+services:
+  plex:
+    image: rtsundland/plex
+    build: .
+    hostname: c-plex
+    container_name: plex
+    restart: always
+    runtime: nvidia
+    environment:
+      - TZ=EST5EDT
+      - CHANGE_CONFIG_DIR_OWNERSHIP=false
+      - PUID=1000
+      - PGID=1000
+      - VERSION=latest
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
+      - PLEX_FORCE_NVDEC=yes
+#      - PLEX_DISABLE_RELAY=yes
+    network_mode: host
+    volumes:
+      - plex_config:/config
+      - plex_library:/media
+      - plex_backup:/backup
+      - plex_transcode:/transcode
+#
+# the below lines will allow for Intel transcoding... and it will
+# take prescedence over the NVIDIA transcoding if it is enabled.
+    devices:
+      - /dev/dri
+
+volumes:
+  plex_config:
+    external: true
+
+  plex_transcode:
+    external: true
+
+  plex_library:
+    external: true
+
+  plex_backup:
+    external: true
+
+#networks:
+#  internal:
+#    name: internal
+#    driver: macvlan
+#    driver_opts:
+#      parent: enp0s31f6
+#    ipam:
+#      config:
+#        - subnet: 10.0.1.0/24
+#          gateway: 10.0.1.1

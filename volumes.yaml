@@ -1,0 +1,27 @@
+version: '2.3'
+
+volumes:
+  config:
+    driver: local
+    driver_opts: 
+      type: nfs
+      o: "addr=172.16.1.10,nfsvers=4,rw"
+      device: ":/mnt/red4tb-z2a/media/plex-config"
+
+  transcode:
+    driver: local
+
+  library:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: "addr=172.16.1.10,nfsvers=4,rw"
+      device: ":/mnt/red4tb-z2a/media/library"
+
+  backup:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: "addr=172.16.1.10,nfsvers=4,rw"
+      device: ":/mnt/red4tb-z2a/backups/plex"
+
