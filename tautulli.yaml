@@ -10,7 +10,7 @@ services:
     env_file: env
     volumes:
       - tautulli_config:/config
-      - plex_config:/plex
+      - plex_config:/plex:ro
 
 volumes:
   plex_config:
