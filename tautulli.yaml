@@ -7,7 +7,8 @@ services:
     hostname: c-tautulli
     restart: always
     network_mode: host
-    depends_on: plex
+    depends_on:
+      - plex
     env_file: env
 
     volumes:
