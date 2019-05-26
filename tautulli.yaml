@@ -10,10 +10,10 @@ services:
     env_file: env
     volumes:
       - tautulli_config:/config
-      - plex_logs:/logs
+      - plex_config:/plex
 
 volumes:
-  plex_logs:
+  plex_config:
     external: true
 
   tautulli_config:

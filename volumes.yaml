@@ -2,6 +2,7 @@ version: '2.3'
 
 volumes:
   config:
+    name: plex_config
     driver: local
     driver_opts: 
       type: nfs
@@ -12,6 +13,7 @@ volumes:
     driver: local
 
   library:
+    name: plex_library
     driver: local
     driver_opts:
       type: nfs
@@ -19,19 +21,12 @@ volumes:
       device: ":/mnt/red4tb-z2a/media/library"
 
   backup:
+    name: plex_backup
     driver: local
     driver_opts:
       type: nfs
       o: "addr=172.16.1.10,nfsvers=4,rw"
       device: ":/mnt/red4tb-z2a/backups/plex"
-
-  # for tautulli, if we run it...
-  logs:
-    driver: local
-    driver_opts:
-      type: nfs
-      o: "addr=172.16.1.10,nfsvers=4,ro"
-      device: ":/mnt/red4tb-z2a/media/plex/Library/Application\ Support/Plex\ Media\ Server/Logs/"
 
   tautulli:
     name: tautulli_config

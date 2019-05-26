@@ -3,11 +3,11 @@ version: '2.3'
 services:
   plex:
     image: rtsundland/plex
+    runtime: nvidia
     build: .
     hostname: c-plex
     container_name: plex
     restart: always
-    runtime: nvidia
     env_file: env
     environment:
       - CHANGE_CONFIG_DIR_OWNERSHIP=false
