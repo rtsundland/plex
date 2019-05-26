@@ -98,13 +98,16 @@ Your chosen setup may be different.
 Once the changes to the *.yaml files are complete, you can
 run this docker-compose command to set everything up:
 
-	$ docker-compose -f volumes.yaml -f compose.yaml \
+	$ docker-compose -f volumes.yaml -f plex.yaml \
 		up -d --build
 
 Optionally, you can also create/modify your own network
 configuration, too.  If you wanted to do this, and include
 it when you run docker-compose, just add '-f network.yaml'
 to your command.
+
+Also optionally, you can run tautulli at the same time by
+adding '-f tautulli.yaml'.
 
 ------------------------------------------------------------
   MONITOR CONTAINER STARTUP

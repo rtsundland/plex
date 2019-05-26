@@ -8,11 +8,9 @@ services:
     container_name: plex
     restart: always
     runtime: nvidia
+    env_file: env
     environment:
-      - TZ=EST5EDT
       - CHANGE_CONFIG_DIR_OWNERSHIP=false
-      - PUID=1000
-      - PGID=1000
       - VERSION=latest
       - NVIDIA_VISIBLE_DEVICES=all
       - NVIDIA_DRIVER_CAPABILITIES=compute,video,utility

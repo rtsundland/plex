@@ -1,0 +1,19 @@
+version: '2.3'
+
+services:
+  tautulli:
+    image: tautulli/tautulli
+    container_name: tautulli
+    hostname: c-tautulli
+    restart: always
+    network_mode: host
+    depends_on: plex
+    env_file: env
+
+    volumes:
+      - plex_logs:/plex_logs
+
+volumes:
+  plex_logs:
+    external: true
+
