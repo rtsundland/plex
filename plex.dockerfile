@@ -3,4 +3,4 @@
 
 FROM linuxserver/plex
 
-COPY etc/ /etc/
+COPY plex.etc/ /etc/
