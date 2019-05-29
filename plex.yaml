@@ -2,9 +2,11 @@ version: '2.3'
 
 services:
   plex:
-    image: rtsundland/plex
+    # image: rtsundland/plex
     runtime: nvidia
-    build: .
+    build: 
+      context: .
+      dockerfile: plex.dockerfile
     hostname: c-plex
     container_name: plex
     restart: always
