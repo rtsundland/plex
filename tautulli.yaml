@@ -12,6 +12,9 @@ services:
       - tautulli_config:/config
       - plex_config:/plex:ro
 
+#    ports:
+#      - 8181
+
 volumes:
   plex_config:
     external: true

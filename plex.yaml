@@ -22,11 +22,19 @@ services:
       - plex_library:/media
       - plex_backup:/backup
       - plex_transcode:/transcode
+#    ports:
+#      - 32400
+#      - 32400/udp
+#      - 32469
+#      - 32469/udp
+#      - 5353/udp
+#      - 1900/udp
+
 #
 # the below lines will allow for Intel transcoding... and it will
 # take prescedence over the NVIDIA transcoding if it is enabled.
-    devices:
-      - /dev/dri
+#    devices:
+#      - /dev/dri
 
 volumes:
   plex_config:

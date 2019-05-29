@@ -7,7 +7,7 @@
 test "X${PLEX_FORCE_NVDEC}" = "X" && exit 0
 
 # Transcoder Location
-FILENAME="/usr/lib/plexmediaserver/Plex Transcoder"
+FILENAME="${PLEX_MEDIA_SERVER_HOME}/Plex Transcoder"
 
 if [ "$(stat -c%s "${FILENAME}")" -lt "20000" ]
 then	echo "Already nvdec patched!"

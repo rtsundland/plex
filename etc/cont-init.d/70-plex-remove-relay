@@ -5,6 +5,6 @@
 
 if [ "X${PLEX_DISABLE_RELAY}" != "X" ]
 then	echo Removing Plex Relay
-	rm -f /usr/lib/plexmediaserver/Plex\ Relay
+	rm -f ${PLEX_MEDIA_SERVER_HOME}/Plex\ Relay
 fi
 
