@@ -1,0 +1,10 @@
+#!/usr/bin/with-contenv bash
+#
+# Forked from adnanklink/plex-norelay-hwdecoding and then added context around
+# environment variables to determine if relaying or NVIDIA hardware decoding is wanted.
+
+if [ "X${PLEX_DISABLE_RELAY}" != "X" ]
+then	echo Removing Plex Relay
+	rm -f ${PLEX_MEDIA_SERVER_HOME}/Plex\ Relay
+fi
+

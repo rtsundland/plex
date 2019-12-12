@@ -1,0 +1,25 @@
+TZ=EST5EDT
+PUID=972
+PGID=972
+UMASK_SET=022
+VERSION=latest
+
+#
+# Whether Plex should attempt to change ownership of configuration files
+CHANGE_CONFIG_DIR_OWNERSHIP=false
+
+#
+# To Enable NVIDIA devices/drivers inside of the container
+#
+#NVIDIA_VISIBLE_DEVICES=all
+#NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
+
+#
+# If NVIDIA devices are enabled, you can force NVDEC using this parameter.
+#
+PLEX_FORCE_NVDEC=yes
+
+#
+# This disabled plex relay
+#
+PLEX_DISABLE_RELAY=yes

@@ -1,0 +1,26 @@
+#!/usr/bin/with-contenv bash
+#
+# Forked from adnanklink/plex-norelay-hwdecoding and then added context around
+# environment variables to determine if relaying or NVIDIA hardware decoding is wanted.
+
+# Should we force -hwaccel nvdec?
+test "X${PLEX_FORCE_NVDEC}" = "X" && exit 0
+
+# Transcoder Location
+FILENAME="${PLEX_MEDIA_SERVER_HOME}/Plex Transcoder"
+
+if [ "$(stat -c%s "${FILENAME}")" -lt "20000" ]
+then	echo "Already nvdec patched!"
+else
+	echo "Replacing default transcoder"
+	mv "${FILENAME}" "${FILENAME}.bin"
+	cat <<-EOF > "${FILENAME}"
+#!/bin/bash
+marap=\$(cut -c 10-14 <<<"\$@")
+if [ \$marap <> "mpeg4" ]
+then	exec '${FILENAME}.bin' -hwaccel nvdec "\$@"
+else	exec '${FILENAME}.bin' "\$@"
+fi
+EOF
+	chmod 755 "${FILENAME}"
+fi
