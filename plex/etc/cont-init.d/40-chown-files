@@ -1,0 +1,43 @@
+#!/usr/bin/with-contenv bash
+CONF_PATH="${PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR}"
+TRANSCODE_PATH="${TRANSCODE_PATH:-/transcode}"
+
+CHANGE_CONFIG_DIR_OWNERSHIP=${CHANGE_CONFIG_DIR_OWNERSHIP:-true}
+PUID=${PUID:-911}
+PGID=${PGID:-911}
+
+# check if configuration folder, if not create it
+#
+test ! -d "${CONF_PATH}" ] && mkdir -p "${CONF_PATH}"
+	
+# we need read from and write to permissions with $CONF_PATH
+#
+if [ ! -r "${CONF_PATH}" ] || [ ! -w "${CONF_PATH}" ]
+then	
+	# we will change ownership of the directory unless we're told not to
+	if [ "X${CHANGE_CONFIG_DIR_OWNERSHIP}" = "Xtrue" ]
+	then	echo "Changing ownership on ${CONF_PATH}.  This could take some time."
+		chown -R ${PUID}:${PGID} "${CONF_PATH}"
+		chmod u+w,g+w "${CONF_PATH}"
+	else
+		echo "$0: unable to read and/or write to configuration directory: ${CONF_PATH}"
+		exit 2
+	fi
+fi
+
+#
+# clean up stale PID file, if it exists
+#
+test -f "${CONF_PATH}/plexmediaserver.pid" && rm -f "${CONF_PATH}/plexmediaserver.pid"
+
+echo "Creating ${TRANSCODE_PATH} path and setting proper permissions"
+test ! -e "${TRANSCODE_PATH}" ] && mkdir -p "${TRANSCODE_PATH}"
+
+if [ ! -d "${TRANSCODE_PATH}" ]
+then	
+	echo "Transcode directory ${TRANSCODE_PATH} exists, but is not a directory.
+	echo "Consider fixing this, either delete the path or choose a different path."
+else
+	chown -R ${PUID}:${PGID} "${TRANSCODE_PATH}"
+fi
+
