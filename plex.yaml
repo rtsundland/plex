@@ -2,47 +2,32 @@ version: '2.3'
 
 services:
   plex:
-    # image: rtsundland/plex
-    runtime: nvidia
-    build: 
-      context: .
-      dockerfile: plex.dockerfile
-    hostname: c-plex
+    image: rtsundland/plex
+    build: ./plex
+    hostname: plex
     container_name: plex
-    restart: always
-    env_file: env
-    environment:
-      - CHANGE_CONFIG_DIR_OWNERSHIP=false
-      - VERSION=latest
-      - NVIDIA_VISIBLE_DEVICES=all
-      - NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
-      - PLEX_FORCE_NVDEC=yes
-#      - PLEX_DISABLE_RELAY=yes
-    network_mode: host
+    restart: unless-stopped
+    env_file: ./misc/env
+    networks:
+      internal:
+        ipv4_address: 10.0.1.30
+
     volumes:
       - plex_config:/config
       - plex_library:/media
       - plex_backup:/backup
-      - plex_transcode:/transcode
-#    ports:
-#      - 32400
-#      - 32400/udp
-#      - 32469
-#      - 32469/udp
-#      - 5353/udp
-#      - 1900/udp
 
 #
-# the below lines will allow for Intel transcoding... and it will
-# take prescedence over the NVIDIA transcoding if it is enabled.
+# To enable NVIDIA transcoding, uncomment
+#    runtime: nvidia
+
+#
+# To enable Intel QuickSync transcoding, uncomment
 #    devices:
 #      - /dev/dri
 
 volumes:
   plex_config:
-    external: true
-
-  plex_transcode:
     external: true
 
   plex_library:
@@ -51,13 +36,14 @@ volumes:
   plex_backup:
     external: true
 
-#networks:
-#  internal:
-#    name: internal
-#    driver: macvlan
-#    driver_opts:
-#      parent: enp0s31f6
-#    ipam:
-#      config:
-#        - subnet: 10.0.1.0/24
-#          gateway: 10.0.1.1
+networks:
+  internal:
+    name: internal
+    driver: macvlan
+    driver_opts:
+      parent: enp0s4
+    ipam:
+      config:
+        - subnet: 10.0.1.0/24
+          gateway: 10.0.1.1
+

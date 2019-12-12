@@ -8,7 +8,7 @@ PGID=${PGID:-911}
 
 # check if configuration folder, if not create it
 #
-test ! -d "${CONF_PATH}" ] && mkdir -p "${CONF_PATH}"
+test ! -d "${CONF_PATH}" && mkdir -p "${CONF_PATH}"
 	
 # we need read from and write to permissions with $CONF_PATH
 #
@@ -31,11 +31,11 @@ fi
 test -f "${CONF_PATH}/plexmediaserver.pid" && rm -f "${CONF_PATH}/plexmediaserver.pid"
 
 echo "Creating ${TRANSCODE_PATH} path and setting proper permissions"
-test ! -e "${TRANSCODE_PATH}" ] && mkdir -p "${TRANSCODE_PATH}"
+test ! -e "${TRANSCODE_PATH}" && mkdir -p "${TRANSCODE_PATH}"
 
 if [ ! -d "${TRANSCODE_PATH}" ]
 then	
-	echo "Transcode directory ${TRANSCODE_PATH} exists, but is not a directory.
+	echo "Transcode directory ${TRANSCODE_PATH} exists, but is not a directory."
 	echo "Consider fixing this, either delete the path or choose a different path."
 else
 	chown -R ${PUID}:${PGID} "${TRANSCODE_PATH}"

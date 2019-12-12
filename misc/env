@@ -17,9 +17,9 @@ CHANGE_CONFIG_DIR_OWNERSHIP=false
 #
 # If NVIDIA devices are enabled, you can force NVDEC using this parameter.
 #
-PLEX_FORCE_NVDEC=yes
+#PLEX_FORCE_NVDEC=yes
 
 #
 # This disabled plex relay
 #
-PLEX_DISABLE_RELAY=yes
+# PLEX_DISABLE_RELAY=yes

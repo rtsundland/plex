@@ -7,10 +7,7 @@ volumes:
     driver_opts: 
       type: nfs
       o: "addr=172.16.1.10,nfsvers=4,rw"
-      device: ":/mnt/red4tb-z2a/media/plex"
-
-  transcode:
-    driver: local
+      device: ":/mnt/vader/media/plex"
 
   library:
     name: plex_library
@@ -18,7 +15,7 @@ volumes:
     driver_opts:
       type: nfs
       o: "addr=172.16.1.10,nfsvers=4,rw"
-      device: ":/mnt/red4tb-z2a/media/library"
+      device: ":/mnt/vader/media/library"
 
   backup:
     name: plex_backup
@@ -26,7 +23,7 @@ volumes:
     driver_opts:
       type: nfs
       o: "addr=172.16.1.10,nfsvers=4,rw"
-      device: ":/mnt/red4tb-z2a/backups/plex"
+      device: ":/mnt/vader/backups/plex"
 
   tautulli:
     name: tautulli_config
@@ -34,4 +31,4 @@ volumes:
     driver_opts: 
       type: nfs
       o: "addr=172.16.1.10,nfsvers=4,rw"
-      device: ":/mnt/red4tb-z2a/media/tautulli"
+      device: ":/mnt/vader/media/tautulli"

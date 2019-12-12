@@ -1,6 +1,0 @@
-#!/usr/bin/with-contenv bash
-
-echo "Setting /transcode filesystem permissions"
-test "X${PUID}" != "X"  && chown ${PUID} /transcode
-test "X${PGID}" != "X"  && chgrp ${PGID} /transcode
-
