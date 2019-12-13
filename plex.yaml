@@ -8,14 +8,22 @@ services:
     container_name: plex
     restart: unless-stopped
     env_file: ./misc/env
-    networks:
-      internal:
-        ipv4_address: 10.0.1.30
+    network_mode: host
+#     internal:
+#        ipv4_address: 10.0.1.30
 
     volumes:
       - plex_config:/config
       - plex_library:/media
       - plex_backup:/backup
+
+    ports:
+      -  32400/tcp
+      -  32400/udp
+      -  32469/tcp
+      -  32469/udp
+      -  5353/udp
+      -  1900/udp
 
 #
 # To enable NVIDIA transcoding, uncomment
@@ -35,15 +43,4 @@ volumes:
 
   plex_backup:
     external: true
-
-networks:
-  internal:
-    name: internal
-    driver: macvlan
-    driver_opts:
-      parent: enp0s4
-    ipam:
-      config:
-        - subnet: 10.0.1.0/24
-          gateway: 10.0.1.1
 

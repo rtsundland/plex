@@ -11,6 +11,8 @@ services:
     volumes:
       - tautulli_config:/config
       - plex_config:/plex:ro
+    depends_on:
+      - plex
 
 volumes:
   plex_config:

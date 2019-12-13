@@ -3,9 +3,10 @@ version: '2.3'
 networks:
   internal:
     name: internal
-    driver: macvlan
+    driver: ipvlan
     driver_opts:
       parent: enp0s4
+      ipvlan_mode: l2
     ipam:
       config:
         - subnet: 10.0.1.0/24
