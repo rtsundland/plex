@@ -11,8 +11,8 @@ services:
 
     environment:
       - TZ=EST5EDT
-      - PUID=972
-      - PGID=972
+      - PUID=1000
+      - PGID=1000
       - UMASK_SET=022
       - VERSION=latest
 
