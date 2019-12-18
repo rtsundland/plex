@@ -3,44 +3,83 @@ version: '2.3'
 services:
   plex:
     image: rtsundland/plex
-    build: ./plex
+    build: .
     hostname: plex
     container_name: plex
     restart: unless-stopped
     env_file: ./misc/env
-    network_mode: host
-#     internal:
-#        ipv4_address: 10.0.1.30
+
+    environment:
+      - TZ=EST5EDT
+      - PUID=972
+      - PGID=972
+      - UMASK_SET=022
+      - VERSION=latest
+
+      #
+      # Whether Plex should attempt to change ownership of configuration files
+      - CHANGE_CONFIG_DIR_OWNERSHIP=false
+
+      #
+      # To Enable NVIDIA devices/drivers inside of the container
+      #
+      #- NVIDIA_VISIBLE_DEVICES=all
+      #- NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
+
+      #
+      # If NVIDIA devices are enabled, you can force NVDEC using this parameter.
+      #
+      #- PLEX_FORCE_NVDEC=yes
+
+      #
+      # This disabled plex relay
+      #
+      #- PLEX_DISABLE_RELAY=yes
+
+    #
+    # To enable NVIDIA transcoding, uncomment
+    #runtime: nvidia
+
+    #
+    # To enable Intel QuickSync transcoding, uncomment
+    #devices:
+    #  - /dev/dri
 
     volumes:
-      - plex_config:/config
-      - plex_library:/media
-      - plex_backup:/backup
+      - config:/config
+      - library:/media
+      - backup:/backup
 
     ports:
-      -  32400/tcp
-      -  32400/udp
-      -  32469/tcp
-      -  32469/udp
-      -  5353/udp
-      -  1900/udp
-
-#
-# To enable NVIDIA transcoding, uncomment
-#    runtime: nvidia
-
-#
-# To enable Intel QuickSync transcoding, uncomment
-#    devices:
-#      - /dev/dri
+      - 32400:32400/tcp
+      - 32400:32400/udp
+      - 32469:32469/tcp
+      - 32469:32469/udp
+      - 5353:5353/udp
+      - 1900:1900/udp
 
 volumes:
-  plex_config:
-    external: true
+  config:
+    name: plex_config
+    driver: local
+    driver_opts: 
+      type: nfs
+      o: "addr=172.16.1.10,nfsvers=4,rw"
+      device: ":/mnt/luke/mediaserver/plex"
 
-  plex_library:
-    external: true
+  library:
+    name: plex_library
+    driver: local
+    driver_opts:
+      type: nfs
+      o: "addr=172.16.1.10,nfsvers=4,rw"
+      device: ":/mnt/vader/media/library"
 
-  plex_backup:
-    external: true
+  backup:
+    name: plex_backup
+    driver: local
+    driver_opts:
+      type: nfs
+      o: "addr=172.16.1.10,nfsvers=4,rw"
+      device: ":/mnt/vader/backups/plex"
 
