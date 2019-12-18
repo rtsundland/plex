@@ -7,7 +7,6 @@ services:
     hostname: plex
     container_name: plex
     restart: unless-stopped
-    env_file: ./misc/env
 
     environment:
       - TZ=EST5EDT
