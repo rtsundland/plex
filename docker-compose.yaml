@@ -7,6 +7,7 @@ services:
     hostname: plex
     container_name: plex
     restart: unless-stopped
+    network_mode: host
 
     environment:
       - TZ=EST5EDT
@@ -22,13 +23,13 @@ services:
       #
       # To Enable NVIDIA devices/drivers inside of the container
       #
-      #- NVIDIA_VISIBLE_DEVICES=all
-      #- NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
 
       #
       # If NVIDIA devices are enabled, you can force NVDEC using this parameter.
       #
-      #- PLEX_FORCE_NVDEC=yes
+      # - PLEX_FORCE_NVDEC=yes
 
       #
       # This disabled plex relay
@@ -37,7 +38,7 @@ services:
 
     #
     # To enable NVIDIA transcoding, uncomment
-    #runtime: nvidia
+    runtime: nvidia
 
     #
     # To enable Intel QuickSync transcoding, uncomment
@@ -46,8 +47,10 @@ services:
 
     volumes:
       - config:/config
+      - config_nfs:/config_nfs
       - library:/media
       - backup:/backup
+      - transcode:/transcode
 
     ports:
       - 32400:32400/tcp
@@ -58,13 +61,15 @@ services:
       - 1900:1900/udp
 
 volumes:
-  config:
-    name: plex_config
+  config_nfs:
+    name: plex_nfs
     driver: local
     driver_opts: 
       type: nfs
       o: "addr=172.16.1.10,nfsvers=4,rw"
       device: ":/mnt/luke/mediaserver/plex"
+
+  config:
 
   library:
     name: plex_library
@@ -82,3 +87,9 @@ volumes:
       o: "addr=172.16.1.10,nfsvers=4,rw"
       device: ":/mnt/vader/backups/plex"
 
+  transcode:
+    name: plex_transcode
+    driver: local
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
