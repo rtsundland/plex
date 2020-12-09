@@ -2,12 +2,16 @@ version: '2.3'
 
 services:
   plex:
-    image: rtsundland/plex
-    build: .
+    image: ghcr.io/linuxserver/plex
     hostname: plex
     container_name: plex
-    restart: unless-stopped
+    restart: always
     network_mode: host
+
+    logging:
+      driver: journald
+      options:
+        tag: "{{.Name}}"
 
     environment:
       - TZ=EST5EDT
@@ -47,10 +51,12 @@ services:
 
     volumes:
       - config:/config
+      - ./custom-init:/config/custom-cont-init.d
       - config_nfs:/config_nfs
       - library:/media
       - backup:/backup
-      - transcode:/transcode
+#      - transcode:/transcode
+      - "../ssl/plex.home.sundland.net.p12:/config/tlscert.p12:ro"
 
     ports:
       - 32400:32400/tcp
@@ -62,12 +68,12 @@ services:
 
 volumes:
   config_nfs:
-    name: plex_nfs
+    name: plex_config_nfs
     driver: local
     driver_opts: 
       type: nfs
       o: "addr=172.16.1.10,nfsvers=4,rw"
-      device: ":/mnt/luke/mediaserver/plex"
+      device: ":/mnt/luke/plex"
 
   config:
 
@@ -87,9 +93,9 @@ volumes:
       o: "addr=172.16.1.10,nfsvers=4,rw"
       device: ":/mnt/vader/backups/plex"
 
-  transcode:
-    name: plex_transcode
-    driver: local
-    driver_opts:
-      type: tmpfs
-      device: tmpfs
+#  transcode:
+#    name: plex_transcode
+#    driver: local
+#    driver_opts:
+#      type: tmpfs
+#      device: tmpfs
