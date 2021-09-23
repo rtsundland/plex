@@ -1,6 +1,6 @@
 This documents the information I have been able to collect
-regarding getting NVIDIA decoding working in Plex.  The 
-information is available other places, so I'm not providing
+regarding getting NVIDIA decoding working in Plex within a Docker container.
+The  information is available other places, so I'm not providing
 or discovering some brand new process... this was my attempt
 to build some documentation for my own personal use on how
 to make it happen from one spot.
